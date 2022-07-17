@@ -5,7 +5,7 @@ require 'yaml'
 require 'net/http'
 
 class ClashConfiguration
-    attr_accessor :basic, :proxyGroups, :proxies, :rules
+    attr_accessor :basic, :proxyGroups, :proxies, :ruleProviders, :rules
 
     def initialize
         @basic = defaultBasic
@@ -157,7 +157,8 @@ class ClashConfiguration
         yamlHash = basic
         yamlHash['proxies'] = proxies
         yamlHash['proxy-groups'] = buildProxyGroups
-        yamlHash['rules'] = rules
+        yamlHash['rule-providers'] = ruleProviders
+        yamlHash['rule'] = rules
 
         return yamlHash.to_yaml
     end
@@ -214,6 +215,14 @@ else
     config.proxyGroups = userProxyGroups['proxy-groups']
 end
 
+userRuleProviders = YAMLLoadFromFile('rule-providers.yaml')
+if !userRuleProviders
+    puts 'Using default rules.'
+else
+    puts 'Loading rule-providers.yaml.'
+    config.ruleProviders = userRuleProviders['rule-providers']
+end
+
 userRules = YAMLLoadFromFile('rules.yaml')
 if !userRules
     puts 'Using default rules.'
@@ -221,6 +230,7 @@ else
     puts 'Loading rules.yaml.'
     config.rules = userRules['rules']
 end
+
 
 outFile = 'config.yaml'
 
