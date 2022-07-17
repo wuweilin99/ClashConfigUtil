@@ -1,6 +1,12 @@
+#type 代表这个组的类型，有下面四种情况
+#select 手动选择，该组在节点列表上，手动选择列表或者 proxy-group
+#url-test 以定时与指定 URL 测速后，自动选择延迟最短的服务器
+#fallback 通过指定的 URL 测试并选择可用的节点，当 1 故障不可用时自动切换到 2 以此类推
+#load-balance 负载均衡，由该组2个以上的节点提供链接
+
 proxy-groups:
 -
-  name: Proxy
+  name: 🔰国外流量
   type: select
   proxies-type: add
   proxies:
@@ -23,21 +29,10 @@ proxy-groups:
   type: select
   proxies:
     - DIRECT
-    - Proxy
--
-  name: AsianTV
-  type: select
-  proxies:
-    - Domestic
-    - Proxy
--
-  name: GlobalTV
-  type: select
-  proxies:
-    - Proxy
+    - 🔰国外流量
 -
   name: Others
   type: select
   proxies:
-    - Proxy
+    - 🔰国外流量
     - Domestic
